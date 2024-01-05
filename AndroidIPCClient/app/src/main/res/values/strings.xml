@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">AndroidIPCClient</string>
+    <string name="input_first_number_hint">please input first number</string>
+    <string name="input_second_number_hint">please input second number</string>
 </resources>

@@ -5,8 +5,12 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
 
+import com.ieening.androidipcserver.services.binders.CalculatorServiceBinder;
+
 public class CalculatorBinderService extends Service {
     private static final String TAG = CalculatorBinderService.class.getName();
+
+    private final CalculatorServiceBinder calculatorServiceBinder = new CalculatorServiceBinder();
 
     public CalculatorBinderService() {
     }
@@ -14,7 +18,7 @@ public class CalculatorBinderService extends Service {
     @Override
     public IBinder onBind(Intent intent) {
         Log.e(TAG, "executing CalculatorBinderService onBind method");
-        throw new UnsupportedOperationException("Not yet implemented");
+        return calculatorServiceBinder;
     }
 
     @Override
@@ -29,4 +33,21 @@ public class CalculatorBinderService extends Service {
         return super.onStartCommand(intent, flags, startId);
     }
 
+    @Override
+    public void onDestroy() {
+        Log.d(TAG, "executing CalculatorBinderService onDestroy method");
+        super.onDestroy();
+    }
+
+    @Override
+    public boolean onUnbind(Intent intent) {
+        Log.d(TAG, "executing CalculatorBinderService onUnbind method");
+        return super.onUnbind(intent);
+    }
+
+    @Override
+    public void onRebind(Intent intent) {
+        Log.d(TAG, "executing CalculatorBinderService onRebind method");
+        super.onRebind(intent);
+    }
 }
