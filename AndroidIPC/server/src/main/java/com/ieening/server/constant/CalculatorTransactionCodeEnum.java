@@ -1,4 +1,4 @@
-package com.ieening.androidipc.constant;
+package com.ieening.server.constant;
 
 
 public enum CalculatorTransactionCodeEnum {

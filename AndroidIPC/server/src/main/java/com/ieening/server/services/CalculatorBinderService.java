@@ -1,11 +1,11 @@
-package com.ieening.androidipc.services;
+package com.ieening.server.services;
 
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
 
-import com.ieening.androidipc.binders.CalculatorServiceBinder;
+import com.ieening.server.binders.CalculatorServiceBinder;
 
 public class CalculatorBinderService extends Service {
     private static final String TAG = CalculatorBinderService.class.getName();
@@ -47,6 +47,7 @@ public class CalculatorBinderService extends Service {
     @Override
     public void onRebind(Intent intent) {
         Log.d(TAG, "executing CalculatorBinderService onRebind method");
+
         super.onRebind(intent);
     }
 }

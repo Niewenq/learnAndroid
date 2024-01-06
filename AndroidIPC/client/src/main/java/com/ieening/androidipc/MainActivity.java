@@ -15,10 +15,12 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.ieening.androidipc.binders.CalculatorServiceBinder;
-import com.ieening.androidipc.constant.CalculatorTransactionCodeEnum;
+import com.ieening.server.ICalculatorAidlInterface;
+import com.ieening.server.binders.CalculatorServiceBinder;
+import com.ieening.server.constant.CalculatorTransactionCodeEnum;
 import com.ieening.androidipc.databinding.ActivityMainBinding;
-import com.ieening.androidipc.services.CalculatorBinderService;
+import com.ieening.server.services.CalculatorAidlService;
+import com.ieening.server.services.CalculatorBinderService;
 
 import java.util.Objects;
 
@@ -30,8 +32,10 @@ public class MainActivity extends AppCompatActivity {
     private Float secondNumber = null;
 
     private IBinder calculatorServiceBinder = null;
+    private ICalculatorAidlInterface iCalculatorAidlBinder = null;
 
     ServiceConnection calculatorBinderServiceConnection = null;
+    ServiceConnection calculatorAidlServiceConnection = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,28 +49,95 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onServiceConnected(ComponentName name, IBinder service) {
                 calculatorServiceBinder = service;
+                Log.d(TAG, "executing calculatorBinderServiceConnection onServiceConnected");
+                changeCalculatorCalculateButtonStatus();
             }
 
             @Override
             public void onServiceDisconnected(ComponentName name) {
                 calculatorServiceBinder = null;
+                Log.d(TAG, "executing calculatorBinderServiceConnection onServiceDisconnected");
+                changeCalculatorCalculateButtonStatus();
             }
         };
+        calculatorAidlServiceConnection = new ServiceConnection() {
+            @Override
+            public void onServiceConnected(ComponentName name, IBinder service) {
+                iCalculatorAidlBinder = ICalculatorAidlInterface.Stub.asInterface(service);
+                Log.d(TAG, "executing calculatorAidlServiceConnection onServiceConnected");
+                changeCalculatorCalculateButtonStatus();
+            }
+
+            @Override
+            public void onServiceDisconnected(ComponentName name) {
+                iCalculatorAidlBinder = null;
+                Log.d(TAG, "executing calculatorAidlServiceConnection onServiceDisconnected");
+                changeCalculatorCalculateButtonStatus();
+            }
+        };
+
+
         setCalculatorBinderServiceBindUnbindButtonOnClickListener(calculatorBinderServiceConnection);
+        setCalculatorAidlServiceBindUnbindButtonOnClickListener(calculatorAidlServiceConnection);
         // ! 获取输入数字
         addNumberEditTextTextChangedListener();
 
+        setOperationButtonsOnClickListener();
+    }
+
+    private void setOperationButtonsOnClickListener() {
         binding.addButton.setOnClickListener(v -> {
             calculatorServiceBinderTransact(CalculatorTransactionCodeEnum.ADD.getCode());
+
+            if (Objects.isNull(iCalculatorAidlBinder)) {
+                Toast.makeText(this, "not bind CalculatorBinderService", Toast.LENGTH_SHORT).show();
+            } else {
+                try {
+                    float result = iCalculatorAidlBinder.twoNumberAdd(firstNumber, secondNumber);
+                    binding.calculatorResultTextView.setText(Float.toString(result));
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
+            }
         });
         binding.subtractButton.setOnClickListener(v -> {
             calculatorServiceBinderTransact(CalculatorTransactionCodeEnum.SUBTRACT.getCode());
+            if (Objects.isNull(iCalculatorAidlBinder)) {
+                Toast.makeText(this, "not bind CalculatorBinderService", Toast.LENGTH_SHORT).show();
+            } else {
+                try {
+                    float result = iCalculatorAidlBinder.twoNumberSubtract(firstNumber, secondNumber);
+                    binding.calculatorResultTextView.setText(Float.toString(result));
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
+            }
         });
         binding.multiplyButton.setOnClickListener(v -> {
             calculatorServiceBinderTransact(CalculatorTransactionCodeEnum.MULTIPLY.getCode());
+            if (Objects.isNull(iCalculatorAidlBinder)) {
+                Toast.makeText(this, "not bind CalculatorBinderService", Toast.LENGTH_SHORT).show();
+            } else {
+                try {
+                    float result = iCalculatorAidlBinder.twoNumberMultiply(firstNumber, secondNumber);
+                    binding.calculatorResultTextView.setText(Float.toString(result));
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
+            }
         });
         binding.divideButton.setOnClickListener(v -> {
             calculatorServiceBinderTransact(CalculatorTransactionCodeEnum.DIVIDE.getCode());
+            if (Objects.isNull(iCalculatorAidlBinder)) {
+                Toast.makeText(this, "not bind CalculatorBinderService", Toast.LENGTH_SHORT).show();
+            } else {
+                try {
+                    float result = iCalculatorAidlBinder.twoNumberDivide(firstNumber, secondNumber);
+                    binding.calculatorResultTextView.setText(Float.toString(result));
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
+            }
         });
     }
 
@@ -125,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
     private void setCalculatorBinderServiceBindUnbindButtonOnClickListener(ServiceConnection calculatorBinderServiceConnection) {
         binding.bindCalculatorBinderServiceButton.setOnClickListener(v -> {
             Intent bindIntent = new Intent(getApplicationContext(), CalculatorBinderService.class);
-            bindIntent.setAction("com.ieening.androidipc.services.action.CalculatorBinderService");
+            bindIntent.setAction("com.ieening.server.services.action.CalculatorBinderService");
             Log.d(TAG, "click bind calculator binder service button to bind service");
             boolean bindResult = bindService(bindIntent, calculatorBinderServiceConnection, Context.BIND_AUTO_CREATE);
             if (bindResult) {
@@ -137,20 +208,50 @@ public class MainActivity extends AppCompatActivity {
             }
 
 
-            changeCalculatorCalculateButtonStatus();
         });
         binding.unbindCalculatorBinderServiceButton.setOnClickListener(v -> {
             unbindService(calculatorBinderServiceConnection);
 
+
             binding.unbindCalculatorBinderServiceButton.setEnabled(false);
             binding.bindCalculatorBinderServiceButton.setEnabled(true);
+
+            calculatorServiceBinder = null;
+
+            changeCalculatorCalculateButtonStatus();
+        });
+    }
+
+    private void setCalculatorAidlServiceBindUnbindButtonOnClickListener(ServiceConnection calculatorAidlServiceConnection) {
+        binding.bindCalculatorAidlServiceButton.setOnClickListener(v -> {
+            Intent bindIntent = new Intent(getApplicationContext(), CalculatorAidlService.class);
+            bindIntent.setAction("com.ieening.server.services.action.CalculatorAidlService");
+            Log.d(TAG, "click bind calculator aidl service button to bind service");
+            boolean bindResult = bindService(bindIntent, calculatorAidlServiceConnection, Context.BIND_AUTO_CREATE);
+            if (bindResult) {
+                Toast.makeText(this, "bind service CalculatorAidlService successes", Toast.LENGTH_SHORT).show();
+                binding.unbindCalculatorAidlServiceButton.setEnabled(true);
+                binding.bindCalculatorAidlServiceButton.setEnabled(false);
+            } else {
+                Toast.makeText(this, "bind service CalculatorAidlService failed", Toast.LENGTH_SHORT).show();
+            }
+
+            changeCalculatorCalculateButtonStatus();
+        });
+        binding.unbindCalculatorAidlServiceButton.setOnClickListener(v -> {
+            unbindService(calculatorAidlServiceConnection);
+
+            binding.unbindCalculatorAidlServiceButton.setEnabled(false);
+            binding.bindCalculatorAidlServiceButton.setEnabled(true);
+
+            iCalculatorAidlBinder = null;
 
             changeCalculatorCalculateButtonStatus();
         });
     }
 
     private void changeCalculatorCalculateButtonStatus() {
-        if (Objects.isNull(firstNumber) || Objects.isNull(secondNumber) || Objects.isNull(calculatorServiceBinder)) {
+        if (Objects.isNull(firstNumber) || Objects.isNull(secondNumber) || (Objects.isNull(calculatorServiceBinder) && Objects.isNull(iCalculatorAidlBinder))) {
             binding.addButton.setEnabled(false);
             binding.subtractButton.setEnabled(false);
             binding.multiplyButton.setEnabled(false);
@@ -165,7 +266,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void calculatorServiceBinderTransact(int code) {
         if (calculatorServiceBinder == null) {
-            Toast.makeText(this, "not bind service", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "not bind CalculatorBinderService", Toast.LENGTH_SHORT).show();
         } else {
             android.os.Parcel _data = android.os.Parcel.obtain();
             android.os.Parcel _reply = android.os.Parcel.obtain();
@@ -186,5 +287,10 @@ public class MainActivity extends AppCompatActivity {
                 _data.recycle();
             }
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }

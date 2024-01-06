@@ -1,4 +1,4 @@
-package com.ieening.androidipc.binders;
+package com.ieening.server.binders;
 
 import android.os.Binder;
 import android.os.Parcel;
@@ -7,7 +7,7 @@ import android.os.RemoteException;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.ieening.androidipc.constant.CalculatorTransactionCodeEnum;
+import com.ieening.server.constant.CalculatorTransactionCodeEnum;
 
 import java.util.Objects;
 

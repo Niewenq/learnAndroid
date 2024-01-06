@@ -20,13 +20,23 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <service
-            android:name="com.ieening.androidipc.services.CalculatorBinderService"
+            android:name="com.ieening.server.services.CalculatorBinderService"
             android:enabled="true"
             android:exported="false"
             android:process=":CalculatorBinderService">
             <intent-filter>
-                <action android:name="com.ieening.androidipc.services.action.CalculatorBinderService" />
+                <action android:name="com.ieening.server.services.action.CalculatorBinderService" />
+            </intent-filter>
+        </service>
+        <service
+            android:name="com.ieening.server.services.CalculatorAidlService"
+            android:enabled="true"
+            android:exported="false"
+            android:process=":CalculatorAidlService">
+            <intent-filter>
+                <action android:name="com.ieening.server.services.action.CalculatorAidlService" />
             </intent-filter>
         </service>
     </application>
