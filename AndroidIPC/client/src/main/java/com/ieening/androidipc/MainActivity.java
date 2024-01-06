@@ -1,8 +1,6 @@
 package com.ieening.androidipc;
 
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -15,11 +13,12 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.ieening.androidipc.databinding.ActivityMainBinding;
-import com.ieening.androidipc.services.CalculatorBinderService;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.ieening.androidipc.binders.CalculatorServiceBinder;
 import com.ieening.androidipc.constant.CalculatorTransactionCodeEnum;
-import com.ieening.androidipc.binders.CalculatorServiceBinder;
+import com.ieening.androidipc.databinding.ActivityMainBinding;
+import com.ieening.androidipc.services.CalculatorBinderService;
 
 import java.util.Objects;
 
@@ -30,7 +29,9 @@ public class MainActivity extends AppCompatActivity {
     private Float firstNumber = null;
     private Float secondNumber = null;
 
-    private CalculatorServiceBinder calculatorServiceBinder = null;
+    private IBinder calculatorServiceBinder = null;
+
+    ServiceConnection calculatorBinderServiceConnection = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,11 +40,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         // ! 绑定服务
-        ServiceConnection calculatorBinderServiceConnection = new ServiceConnection() {
+        calculatorBinderServiceConnection = new ServiceConnection() {
 
             @Override
             public void onServiceConnected(ComponentName name, IBinder service) {
-                calculatorServiceBinder = (CalculatorServiceBinder) service;
+                calculatorServiceBinder = service;
             }
 
             @Override

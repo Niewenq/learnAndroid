@@ -17,7 +17,7 @@ public class CalculatorBinderService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
-        Log.e(TAG, "executing CalculatorBinderService onBind method");
+        Log.d(TAG, "executing CalculatorBinderService onBind method");
         return calculatorServiceBinder;
     }
 
