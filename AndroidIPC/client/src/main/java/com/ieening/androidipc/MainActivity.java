@@ -81,38 +81,34 @@ public class MainActivity extends AppCompatActivity {
         setCalculatorAidlServiceBindUnbindButtonOnClickListener(calculatorAidlServiceConnection);
         // ! 获取输入数字
         addNumberEditTextTextChangedListener();
-
+        // ! 设置 操作运算符 OnClickListener
         setOperationButtonsOnClickListener();
     }
 
     private void setOperationButtonsOnClickListener() {
-        binding.addButton.setOnClickListener(v -> {
-            calculatorServiceBinderTransact(CalculatorTransactionCodeEnum.ADD.getCode());
+        setAddButtonOnClickListener();
+        setSubtractButtonOnClickListener();
+        setMultiplyButtonOnClickListener();
+        setDivideButtonOnClickListener();
+    }
 
+    private void setDivideButtonOnClickListener() {
+        binding.divideButton.setOnClickListener(v -> {
+            calculatorServiceBinderTransact(CalculatorTransactionCodeEnum.DIVIDE.getCode());
             if (Objects.isNull(iCalculatorAidlBinder)) {
                 Toast.makeText(this, "not bind CalculatorBinderService", Toast.LENGTH_SHORT).show();
             } else {
                 try {
-                    float result = iCalculatorAidlBinder.twoNumberAdd(firstNumber, secondNumber);
+                    float result = iCalculatorAidlBinder.twoNumberDivide(firstNumber, secondNumber);
                     binding.calculatorResultTextView.setText(Float.toString(result));
                 } catch (RemoteException e) {
                     throw new RuntimeException(e);
                 }
             }
         });
-        binding.subtractButton.setOnClickListener(v -> {
-            calculatorServiceBinderTransact(CalculatorTransactionCodeEnum.SUBTRACT.getCode());
-            if (Objects.isNull(iCalculatorAidlBinder)) {
-                Toast.makeText(this, "not bind CalculatorBinderService", Toast.LENGTH_SHORT).show();
-            } else {
-                try {
-                    float result = iCalculatorAidlBinder.twoNumberSubtract(firstNumber, secondNumber);
-                    binding.calculatorResultTextView.setText(Float.toString(result));
-                } catch (RemoteException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        });
+    }
+
+    private void setMultiplyButtonOnClickListener() {
         binding.multiplyButton.setOnClickListener(v -> {
             calculatorServiceBinderTransact(CalculatorTransactionCodeEnum.MULTIPLY.getCode());
             if (Objects.isNull(iCalculatorAidlBinder)) {
@@ -126,13 +122,33 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-        binding.divideButton.setOnClickListener(v -> {
-            calculatorServiceBinderTransact(CalculatorTransactionCodeEnum.DIVIDE.getCode());
+    }
+
+    private void setSubtractButtonOnClickListener() {
+        binding.subtractButton.setOnClickListener(v -> {
+            calculatorServiceBinderTransact(CalculatorTransactionCodeEnum.SUBTRACT.getCode());
             if (Objects.isNull(iCalculatorAidlBinder)) {
                 Toast.makeText(this, "not bind CalculatorBinderService", Toast.LENGTH_SHORT).show();
             } else {
                 try {
-                    float result = iCalculatorAidlBinder.twoNumberDivide(firstNumber, secondNumber);
+                    float result = iCalculatorAidlBinder.twoNumberSubtract(firstNumber, secondNumber);
+                    binding.calculatorResultTextView.setText(Float.toString(result));
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+    }
+
+    private void setAddButtonOnClickListener() {
+        binding.addButton.setOnClickListener(v -> {
+            calculatorServiceBinderTransact(CalculatorTransactionCodeEnum.ADD.getCode());
+
+            if (Objects.isNull(iCalculatorAidlBinder)) {
+                Toast.makeText(this, "not bind CalculatorBinderService", Toast.LENGTH_SHORT).show();
+            } else {
+                try {
+                    float result = iCalculatorAidlBinder.twoNumberAdd(firstNumber, secondNumber);
                     binding.calculatorResultTextView.setText(Float.toString(result));
                 } catch (RemoteException e) {
                     throw new RuntimeException(e);
