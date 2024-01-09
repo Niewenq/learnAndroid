@@ -1,20 +1,14 @@
 package com.ieening.androidipcserver;
 
-import android.app.Activity;
-import android.content.Intent;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
 
-import com.ieening.androidipcserver.services.MyService;
-
-public class MainActivity extends Activity {
+public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        String serviceName = getIntent().getStringExtra("serviceName");
-        if ("MyService".equals(serviceName)) {
-            Intent intent = new Intent(getApplicationContext(), MyService.class);
-            startService(intent);
-        }
+        setContentView(R.layout.activity_main);
     }
 }

@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <permission android:name="com.ieening.androidipcserver.services.permission.CalculatorBinderService" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -10,33 +12,25 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@android:style/Theme.NoDisplay"
+        android:theme="@style/Theme.AndroidIPCServer"
         tools:targetApi="31">
         <service
-            android:name=".services.CalculatorBinderService"
+            android:name=".services.VectorQuantityService"
             android:enabled="true"
             android:exported="true"
-            android:permission="com.ieening.androidipcserver.permission.CalculatorBinderService">
+            android:permission="com.ieening.androidipcserver.services.permission.CalculatorBinderService">
             <intent-filter>
-                <action android:name="com.ieening.androidipcserver.action.CaculatorBinderService" />
-            </intent-filter>
-        </service>
-        <service
-            android:name=".services.MyService"
-            android:enabled="true"
-            android:exported="true"
-            android:permission="com.ieening.androidipcserver.myservice">
-            <intent-filter>
-                <action android:name="com.ieening.androidipcserver.action.AIDL_SERVICE" />
+                <action android:name="com.ieening.androidipcserver.services.action.CalculatorBinderService" />
             </intent-filter>
         </service>
 
         <activity
             android:name=".MainActivity"
-            android:excludeFromRecents="true"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
     </application>
