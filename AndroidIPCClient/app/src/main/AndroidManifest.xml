@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -22,5 +23,11 @@
             </intent-filter>
         </activity>
     </application>
+    <queries>
+        <package android:name="com.ieening.androidipcserver"></package>
+        <intent>
+            <action android:name="com.ieening.androidipcserver.action.vectorquantity.VectorQuantityService" />
+        </intent>
+    </queries>
 
 </manifest>

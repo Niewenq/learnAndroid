@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <permission android:name="com.ieening.androidipcserver.services.permission.CalculatorBinderService" />
 
     <application
         android:allowBackup="true"
@@ -17,8 +16,12 @@
         <service
             android:name=".vectorquantity.VectorQuantityService"
             android:enabled="true"
-            android:exported="true"
-            android:permission="com.ieening.androidipcserver.vectorquantity.permission.VectorQuantityService" />
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.ieening.androidipcserver.action.vectorquantity.VectorQuantityService" />
+            </intent-filter>
+        </service>
+
 
         <activity
             android:name=".MainActivity"
