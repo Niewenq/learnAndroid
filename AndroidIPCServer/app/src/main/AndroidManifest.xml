@@ -15,14 +15,10 @@
         android:theme="@style/Theme.AndroidIPCServer"
         tools:targetApi="31">
         <service
-            android:name=".services.VectorQuantityService"
+            android:name=".vectorquantity.VectorQuantityService"
             android:enabled="true"
             android:exported="true"
-            android:permission="com.ieening.androidipcserver.services.permission.CalculatorBinderService">
-            <intent-filter>
-                <action android:name="com.ieening.androidipcserver.services.action.CalculatorBinderService" />
-            </intent-filter>
-        </service>
+            android:permission="com.ieening.androidipcserver.vectorquantity.permission.VectorQuantityService" />
 
         <activity
             android:name=".MainActivity"

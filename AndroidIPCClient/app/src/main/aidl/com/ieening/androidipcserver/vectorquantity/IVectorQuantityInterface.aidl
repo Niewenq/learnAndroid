@@ -1,8 +1,8 @@
 // IVectorQuantityInterface.aidl
-package com.ieening.androidipcserver;
+package com.ieening.androidipcserver.vectorquantity;
 
-import com.ieening.androidipcserver.model.VectorQuantity;
 // Declare any non-default types here with import statements
+import com.ieening.androidipcserver.vectorquantity.VectorQuantity;
 
 interface IVectorQuantityInterface {
     /**

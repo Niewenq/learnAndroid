@@ -1,4 +1,4 @@
-package com.ieening.androidipcserver.model;
+package com.ieening.androidipcserver.vectorquantity;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -18,14 +18,17 @@ public class VectorQuantity implements Parcelable {
         return components;
     }
 
-    private ArrayList<Double> components = new ArrayList<>();
+    private final ArrayList<Double> components;
 
     protected VectorQuantity(Parcel in) {
-        this.components.clear();
+        this();
         for (double component :
                 Objects.requireNonNull(in.createDoubleArray())) {
             this.components.add(component);
         }
+    }
+    public VectorQuantity(){
+        this.components = new ArrayList<>();
     }
 
     public static final Creator<VectorQuantity> CREATOR = new Creator<VectorQuantity>() {
@@ -41,7 +44,7 @@ public class VectorQuantity implements Parcelable {
     };
 
     public VectorQuantity(ArrayList<Double> arrayList) {
-        this.components.clear();
+        this();
         this.components.addAll(arrayList);
     }
 

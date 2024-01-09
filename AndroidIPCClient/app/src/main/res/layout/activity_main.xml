@@ -7,7 +7,7 @@
     tools:context=".MainActivity">
 
     <LinearLayout
-        android:id="@+id/calculatorNumberLinearLayout"
+        android:id="@+id/vectorQuantityNumberLinearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/underline"
@@ -58,28 +58,28 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/calculatorAidlServiceButtons"
+        android:id="@+id/vectorQuantityAidlServiceButtons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/underline"
         android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/calculatorNumberLinearLayout">
+        app:layout_constraintTop_toBottomOf="@id/vectorQuantityNumberLinearLayout">
 
         <Button
-            android:id="@+id/bindCalculatorAidlServiceButton"
+            android:id="@+id/bindVectorQuantityAidlServiceButton"
             style="@style/Widget.Material3.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="bind calculator aidl service" />
+            android:text="bind vectorQuantity aidl service" />
 
         <Button
-            android:id="@+id/unbindCalculatorAidlServiceButton"
+            android:id="@+id/unbindVectorQuantityAidlServiceButton"
             style="@style/Widget.Material3.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:enabled="false"
-            android:text="unbind calculator aidl service" />
+            android:text="unbind vectorQuantity aidl service" />
 
     </LinearLayout>
 

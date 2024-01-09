@@ -1,29 +1,26 @@
-package com.ieening.androidipcserver.services;
+package com.ieening.androidipcserver.vectorquantity;
 
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import android.os.RemoteException;
 
-import com.ieening.androidipcserver.IVectorQuantityInterface;
-import com.ieening.androidipcserver.model.VectorQuantity;
+import com.ieening.androidipcserver.vectorquantity.IVectorQuantityInterface;
 
 public class VectorQuantityService extends Service {
+    private final static String TAG = VectorQuantityService.class.getName();
     private final IVectorQuantityInterface.Stub iVectorQuantityBinder = new IVectorQuantityInterface.Stub() {
 
         @Override
         public void updateVectorQuantityIn(VectorQuantity vectorQuantity) throws RemoteException {
-
         }
 
         @Override
         public void updateVectorQuantityOut(VectorQuantity vectorQuantity) throws RemoteException {
-
         }
 
         @Override
         public void updateVectorQuantityInOut(VectorQuantity vectorQuantity) throws RemoteException {
-
         }
     };
 

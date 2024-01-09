@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -17,11 +18,18 @@ public class VectorQuantity implements Parcelable {
         return components;
     }
 
-    private ArrayList<Double> components = new ArrayList<>();
+    private final ArrayList<Double> components;
 
     protected VectorQuantity(Parcel in) {
-        this.components.clear();
-        this.components.addAll(Objects.requireNonNull(in.readArrayList(Double.class.getClassLoader())));
+        this();
+        for (double component :
+                Objects.requireNonNull(in.createDoubleArray())) {
+            this.components.add(component);
+        }
+    }
+
+    public VectorQuantity() {
+        this.components = new ArrayList<>();
     }
 
     public static final Creator<VectorQuantity> CREATOR = new Creator<VectorQuantity>() {
@@ -36,8 +44,8 @@ public class VectorQuantity implements Parcelable {
         }
     };
 
-    VectorQuantity(ArrayList<Double> arrayList) {
-        this.components.clear();
+    public VectorQuantity(ArrayList<Double> arrayList) {
+        this();
         this.components.addAll(arrayList);
     }
 
@@ -74,7 +82,7 @@ public class VectorQuantity implements Parcelable {
 
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
-        dest.writeList(this.components);
+        dest.writeDoubleArray(Arrays.stream(this.components.toArray()).mapToDouble(k -> (double) k).toArray());
     }
 
     public void update(String componentsString) {
@@ -89,6 +97,10 @@ public class VectorQuantity implements Parcelable {
     }
 
     public void readFromParcel(Parcel in) {
-        this.components = in.readArrayList(Double.class.getClassLoader());
+        this.components.clear();
+        for (double component :
+                Objects.requireNonNull(in.createDoubleArray())) {
+            this.components.add(component);
+        }
     }
 }
