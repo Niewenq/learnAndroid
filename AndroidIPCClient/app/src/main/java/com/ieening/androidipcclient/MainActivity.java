@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void addNumberEditTextChangedListener() {
-        binding.firstNumberEditText.addTextChangedListener(new TextWatcher() {
+        binding.firstNumberSendToServerEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -86,9 +86,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 firstVectorQuantity.update(s.toString().trim());
+                changeVectorQuantityButtonsStatus();
             }
         });
-        binding.secondNumberEditText.addTextChangedListener(new TextWatcher() {
+        binding.secondNumberSendToServerEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -102,9 +103,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 secondVectorQuantity.update(s.toString().trim());
+                changeVectorQuantityButtonsStatus();
             }
         });
-        binding.thirdNumberEditText.addTextChangedListener(new TextWatcher() {
+        binding.thirdNumberSendToServerEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -118,6 +120,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 thirdVectorQuantity.update(s.toString().trim());
+                changeVectorQuantityButtonsStatus();
             }
         });
     }
@@ -125,7 +128,10 @@ public class MainActivity extends AppCompatActivity {
     private void setVectorQuantityNumberButtonsOnclickListener() {
         binding.vectorQuantityFirstNumberButton.setOnClickListener(v -> {
             try {
+                Log.d(TAG, "send to server updateVectorQuantityIn firstVectorQuantity = " + firstVectorQuantity);
                 vectorQuantityRemote.updateVectorQuantityIn(firstVectorQuantity);
+                binding.firstNumberReceiveFromServerEditText.setText(firstVectorQuantity.toString());
+                Log.d(TAG, "receive from server updateVectorQuantityIn firstVectorQuantity = " + firstVectorQuantity);
             } catch (RemoteException e) {
                 e.printStackTrace();
                 throw new RuntimeException(e);
@@ -134,7 +140,10 @@ public class MainActivity extends AppCompatActivity {
 
         binding.vectorQuantitySecondNumberButton.setOnClickListener(v -> {
             try {
+                Log.d(TAG, "send to server updateVectorQuantityOut secondVectorQuantity = " + secondVectorQuantity);
                 vectorQuantityRemote.updateVectorQuantityOut(secondVectorQuantity);
+                binding.secondNumberReceiveFromServerEditText.setText(secondVectorQuantity.toString());
+                Log.d(TAG, "receive from server updateVectorQuantityOut secondVectorQuantity = " + secondVectorQuantity);
             } catch (RemoteException e) {
                 e.printStackTrace();
                 throw new RuntimeException(e);
@@ -143,7 +152,10 @@ public class MainActivity extends AppCompatActivity {
 
         binding.vectorQuantityThirdNumberButton.setOnClickListener(v -> {
             try {
+                Log.d(TAG, "send to server updateVectorQuantityInOut thirdVectorQuantity = " + thirdVectorQuantity);
                 vectorQuantityRemote.updateVectorQuantityInOut(thirdVectorQuantity);
+                binding.thirdNumberReceiveFromServerEditText.setText(thirdVectorQuantity.toString());
+                Log.d(TAG, "receive from server updateVectorQuantityInOut thirdVectorQuantity = " + thirdVectorQuantity);
             } catch (RemoteException e) {
                 e.printStackTrace();
                 throw new RuntimeException(e);

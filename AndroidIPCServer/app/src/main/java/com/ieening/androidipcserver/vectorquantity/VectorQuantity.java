@@ -18,6 +18,10 @@ public class VectorQuantity implements Parcelable {
         return components;
     }
 
+    public int getDimension() {
+        return components.size();
+    }
+
     private final ArrayList<Double> components;
 
     protected VectorQuantity(Parcel in) {
@@ -27,7 +31,8 @@ public class VectorQuantity implements Parcelable {
             this.components.add(component);
         }
     }
-    public VectorQuantity(){
+
+    public VectorQuantity() {
         this.components = new ArrayList<>();
     }
 
