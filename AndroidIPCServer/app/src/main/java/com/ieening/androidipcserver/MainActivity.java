@@ -2,23 +2,19 @@ package com.ieening.androidipcserver;
 
 import static com.ieening.androidipcserver.vectorquantity.VectorQuantityService.UPDATE_EDIT_TEXT_ACTION;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.ieening.androidipcserver.databinding.ActivityMainBinding;
 import com.ieening.androidipcserver.vectorquantity.VectorQuantity;
-
-import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
