@@ -7,11 +7,15 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.os.RemoteException;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.ieening.androidipcclient.databinding.ActivityMainBinding;
 import com.ieening.androidipcserver.vectorquantity.IVectorQuantityInterface;
+import com.ieening.androidipcserver.vectorquantity.VectorQuantity;
 
 import java.util.Objects;
 
@@ -21,8 +25,12 @@ public class MainActivity extends AppCompatActivity {
 
     private IVectorQuantityInterface vectorQuantityRemote = null;
 
+    private final VectorQuantity firstVectorQuantity = new VectorQuantity();
+    private final VectorQuantity secondVectorQuantity = new VectorQuantity();
+    private final VectorQuantity thirdVectorQuantity = new VectorQuantity();
 
-    private ServiceConnection serviceConnection = new ServiceConnection() {
+
+    private final ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             vectorQuantityRemote = IVectorQuantityInterface.Stub.asInterface(service);
@@ -39,6 +47,15 @@ public class MainActivity extends AppCompatActivity {
     };
 
     private void changeVectorQuantityButtonsStatus() {
+        if (!Objects.isNull(vectorQuantityRemote)) {
+            binding.vectorQuantityFirstNumberButton.setEnabled(firstVectorQuantity.getDimension() > 0);
+            binding.vectorQuantitySecondNumberButton.setEnabled(secondVectorQuantity.getDimension() > 0);
+            binding.vectorQuantityThirdNumberButton.setEnabled(thirdVectorQuantity.getDimension() > 0);
+        } else {
+            binding.vectorQuantityFirstNumberButton.setEnabled(false);
+            binding.vectorQuantitySecondNumberButton.setEnabled(false);
+            binding.vectorQuantityThirdNumberButton.setEnabled(false);
+        }
     }
 
     @Override
@@ -47,6 +64,94 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        setBindUnbindVectorQuantityAidlServiceButtonOnClickListener();
+
+        setVectorQuantityNumberButtonsOnclickListener();
+
+        addNumberEditTextChangedListener();
+    }
+
+    private void addNumberEditTextChangedListener() {
+        binding.firstNumberEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                firstVectorQuantity.update(s.toString().trim());
+            }
+        });
+        binding.secondNumberEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                secondVectorQuantity.update(s.toString().trim());
+            }
+        });
+        binding.thirdNumberEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                thirdVectorQuantity.update(s.toString().trim());
+            }
+        });
+    }
+
+    private void setVectorQuantityNumberButtonsOnclickListener() {
+        binding.vectorQuantityFirstNumberButton.setOnClickListener(v -> {
+            try {
+                vectorQuantityRemote.updateVectorQuantityIn(firstVectorQuantity);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+                throw new RuntimeException(e);
+            }
+        });
+
+        binding.vectorQuantitySecondNumberButton.setOnClickListener(v -> {
+            try {
+                vectorQuantityRemote.updateVectorQuantityOut(secondVectorQuantity);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+                throw new RuntimeException(e);
+            }
+        });
+
+        binding.vectorQuantityThirdNumberButton.setOnClickListener(v -> {
+            try {
+                vectorQuantityRemote.updateVectorQuantityInOut(thirdVectorQuantity);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+                throw new RuntimeException(e);
+            }
+        });
+    }
+
+    private void setBindUnbindVectorQuantityAidlServiceButtonOnClickListener() {
         binding.bindVectorQuantityAidlServiceButton.setOnClickListener(v -> {
             Log.d(TAG, "click bind vector quantity aidl service button to bind service");
             Intent bindIntent = new Intent();
