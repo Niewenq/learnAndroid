@@ -83,4 +83,39 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/vectorQuantityNumberButtons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/underline"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/vectorQuantityAidlServiceButtons">
+
+        <Button
+            android:id="@+id/vectorQuantityFirstNumberButton"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:text="update first number button" />
+
+        <Button
+            android:id="@+id/vectorQuantitySecondNumberButton"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:text="update second number button" />
+
+        <Button
+            android:id="@+id/vectorQuantityThirdNumberButton"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:text="update third number button" />
+
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
