@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
             boolean bindResult = bindService(bindIntent, serviceConnection, Context.BIND_AUTO_CREATE);
             if (bindResult) {
                 binding.bindStudentServiceButton.setEnabled(false);
-                binding.bindStudentServiceButton.setEnabled(true);
+                binding.unbindStudentServiceButton.setEnabled(true);
                 Toast.makeText(this, "bind student service success", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(this, "bind student service failed", Toast.LENGTH_SHORT).show();
@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
         binding.unbindStudentServiceButton.setOnClickListener(v -> {
             unbindService(serviceConnection);
             binding.bindStudentServiceButton.setEnabled(true);
-            binding.bindStudentServiceButton.setEnabled(false);
+            binding.unbindStudentServiceButton.setEnabled(false);
         });
     }
 
