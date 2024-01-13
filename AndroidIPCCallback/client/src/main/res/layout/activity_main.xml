@@ -34,20 +34,56 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/getStudentInfoLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/underline"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/studentServiceButtons">
+
+        <Button
+            android:id="@+id/getStudentInfoButton"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:text="get student info"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/studentServiceButtons" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.Design.TextInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="student info"
+            app:layout_constraintStart_toEndOf="@id/getStudentInfoButton"
+            app:layout_constraintTop_toBottomOf="@id/studentServiceButtons">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/studentInfoEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </LinearLayout>
+
     <com.google.android.material.textfield.TextInputLayout
         style="@style/Widget.Design.TextInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/underline"
-        android:hint="student info"
+        android:hint="atuo update student info"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/studentServiceButtons">
+        app:layout_constraintTop_toBottomOf="@id/getStudentInfoLinearLayout">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/studentInfoEditText"
+            android:id="@+id/studentInfoAutoUpdateEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
     </com.google.android.material.textfield.TextInputLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

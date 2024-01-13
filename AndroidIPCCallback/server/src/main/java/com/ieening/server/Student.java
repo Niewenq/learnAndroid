@@ -9,11 +9,11 @@ public class Student implements Parcelable {
     private String name;
     private int age;
 
-    public void setScore(float score) {
+    public void setScore(int score) {
         this.score = score;
     }
 
-    private float score;
+    private int score;
 
     public Student() {
 
@@ -50,13 +50,13 @@ public class Student implements Parcelable {
     public void writeToParcel(@NonNull Parcel dest, int flags) {
         dest.writeString(name);
         dest.writeInt(age);
-        dest.writeFloat(score);
+        dest.writeInt(score);
     }
 
     public void readFromParcel(Parcel in) {
         name = in.readString();
         age = in.readInt();
-        score = in.readFloat();
+        score = in.readInt();
     }
 
     @NonNull

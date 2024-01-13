@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
             super.handleMessage(msg);
             if (msg.what == 1) {
                 Student student = (Student) Objects.requireNonNull(msg.getData().getParcelable("student"));
-                binding.studentInfoEditText.setText(student.toString());
+                binding.studentInfoAutoUpdateEditText.setText(student.toString());
             }
         }
     };
@@ -77,6 +77,14 @@ public class MainActivity extends AppCompatActivity {
 
 
         setBindUnbindButtonOnClickListener();
+
+        binding.getStudentInfoButton.setOnClickListener(v -> {
+            try {
+                binding.studentInfoEditText.setText(studentServiceRemoteBinder.getStudentInfo().toString());
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
     private void setBindUnbindButtonOnClickListener() {
@@ -86,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
             if (bindResult) {
                 binding.bindStudentServiceButton.setEnabled(false);
                 binding.unbindStudentServiceButton.setEnabled(true);
+                binding.getStudentInfoButton.setEnabled(true);
                 Toast.makeText(this, "bind student service success", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(this, "bind student service failed", Toast.LENGTH_SHORT).show();
@@ -96,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
             unbindService(serviceConnection);
             binding.bindStudentServiceButton.setEnabled(true);
             binding.unbindStudentServiceButton.setEnabled(false);
+            binding.getStudentInfoButton.setEnabled(false);
         });
     }
 

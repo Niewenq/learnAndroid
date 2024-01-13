@@ -38,7 +38,7 @@ public class StudentService extends Service {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                student.setScore((float) (Math.random() * 100));
+                student.setScore((int) (Math.random() * 100));
                 try {
                     if (!Objects.isNull(remoteCallback)) {
                         remoteCallback.onCallback(student);
@@ -47,6 +47,7 @@ public class StudentService extends Service {
                     e.printStackTrace();
                 }
             }
+            stopSelf();
         }).start();
     }
 
