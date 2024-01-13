@@ -58,4 +58,10 @@ public class Student implements Parcelable {
         age = in.readInt();
         score = in.readFloat();
     }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "name= " + name + ", age= " + age + ", score= " + score;
+    }
 }
